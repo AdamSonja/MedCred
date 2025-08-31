@@ -2,12 +2,12 @@
   {
     "inputs": [
       {
-        "internalType": "contract IMedCredToken",
+        "internalType": "address",
         "name": "_token",
         "type": "address"
       },
       {
-        "internalType": "contract IStaking",
+        "internalType": "address",
         "name": "_staking",
         "type": "address"
       },

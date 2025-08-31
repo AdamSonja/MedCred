@@ -16,12 +16,8 @@ public class ZKVerifierController {
 
     @PostMapping("/verify")
     public Boolean verifyProof(@RequestParam String proof, @RequestParam String publicSignal) throws Exception {
-        // Convert proof string (assume Base64 encoded) to byte[]
         byte[] proofBytes = Base64.getDecoder().decode(proof);
-
-        // Convert publicSignal to BigInteger
         BigInteger publicInput = new BigInteger(publicSignal);
-
         return zkVerifierService.verifyProof(proofBytes, publicInput);
     }
 }

@@ -1,0 +1,2 @@
+POST http://localhost:8080/doctors
+Content-Type: application/json

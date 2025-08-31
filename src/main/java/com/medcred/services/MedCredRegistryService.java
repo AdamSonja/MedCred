@@ -29,29 +29,68 @@ public class MedCredRegistryService {
         registry = MedCredRegistery.load(registryAddress, web3j, credentials, new DefaultGasProvider());
     }
 
-    // Add a doctor on-chain. walletAddress must be a hex address (e.g. "0xabc...").
-    public TransactionReceipt addDoctorOnChain(String walletAddress, String license, String name) throws Exception {
+    // === Doctor Management ===
+    public TransactionReceipt addDoctor(String walletAddress, String license, String name) throws Exception {
         return registry.addDoctor(walletAddress, license, name).send();
     }
 
-    // Get wallet by license
-    public String getWalletByLicense(String license) throws Exception {
-        return registry.getWalletByLicense(license).send();
+    public TransactionReceipt removeDoctor(String walletAddress) throws Exception {
+        return registry.removeDoctor(walletAddress).send();
     }
 
-    // Check doctor
     public boolean isDoctor(String walletAddress) throws Exception {
         return registry.isDoctor(walletAddress).send();
     }
 
-    // Increase reputation on-chain (requires REPUTATION_MANAGER_ROLE or ADMIN)
-    public TransactionReceipt increaseReputationOnChain(String walletAddress, BigInteger points) throws Exception {
+    public String getWalletByLicense(String license) throws Exception {
+        return registry.getWalletByLicense(license).send();
+    }
+
+    public DoctorDTO getDoctor(String walletAddress) throws Exception {
+        var result = registry.getDoctor(walletAddress).send();
+        return new DoctorDTO(result.getValue1(), result.getValue2(), result.getValue3());
+    }
+
+    // === Reputation Management ===
+    public TransactionReceipt increaseReputation(String walletAddress, BigInteger points) throws Exception {
         return registry.increaseReputation(walletAddress, points).send();
     }
 
-    // Get reputation
-    public BigInteger getReputationOnChain(String walletAddress) throws Exception {
-        // wrapper returns BigInteger
+    public TransactionReceipt decreaseReputation(String walletAddress, BigInteger points) throws Exception {
+        return registry.decreaseReputation(walletAddress, points).send();
+    }
+
+    public TransactionReceipt setReputation(String walletAddress, BigInteger value) throws Exception {
+        return registry.setReputation(walletAddress, value).send();
+    }
+
+    public BigInteger getReputation(String walletAddress) throws Exception {
         return registry.getReputation(walletAddress).send();
+    }
+
+    // === Ownership / Roles ===
+    public TransactionReceipt transferOwnership(String newOwner) throws Exception {
+        return registry.transferOwnership(newOwner).send();
+    }
+
+    public TransactionReceipt grantReputationManager(String walletAddress) throws Exception {
+        return registry.grantReputationManager(walletAddress).send();
+    }
+
+    public TransactionReceipt revokeReputationManager(String walletAddress) throws Exception {
+        return registry.revokeReputationManager(walletAddress).send();
+    }
+
+    // === DTO for Doctor ===
+    public static class DoctorDTO {
+        public final String license;
+        public final String name;
+        public final boolean exists;
+
+        public DoctorDTO(String license, String name, boolean exists) {
+            this.license = license;
+            this.name = name;
+            this.exists = exists;
+        }
     }
 }

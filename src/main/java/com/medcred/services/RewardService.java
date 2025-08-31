@@ -1,8 +1,6 @@
 package com.medcred.services;
 
-import com.medcred.contracts.RewardManager;
-import com.medcred.models.Reward;
-import com.medcred.repository.RewardRepository;
+import com.medcred.contracts.ReputationManagerFixed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,27 +18,27 @@ public class RewardService {
 
     private final Web3j web3j;
     private final Credentials credentials;
-    private final RewardRepository rewardRepository;
 
     @Value("${contract.reward.address}")
     private String rewardAddress;
 
-    private RewardManager rewardManager;
+    private ReputationManagerFixed rewardManager;
 
     @PostConstruct
     public void init() {
-        rewardManager = RewardManager.load(rewardAddress, web3j, credentials, new DefaultGasProvider());
+        rewardManager = ReputationManagerFixed.load(rewardAddress, web3j, credentials, new DefaultGasProvider());
     }
 
-    public Reward distributeRewardToDoctor(String doctorWallet, BigInteger baseReward) throws Exception {
-        // Call Solidity's distributeReward()
-        TransactionReceipt tx = rewardManager.distributeReward(doctorWallet, baseReward).send();
+    public TransactionReceipt distributeRewardToDoctor(String doctorWallet, BigInteger baseReward) throws Exception {
+        // Calls the smart contract directly
+        return rewardManager.distributeReward(doctorWallet, baseReward).send();
+    }
 
-        Reward reward = new Reward();
-        reward.setDoctorWallet(doctorWallet);
-        reward.setAmount(baseReward);
+    public TransactionReceipt slashDoctor(String doctorWallet, BigInteger amount) throws Exception {
+        return rewardManager.slash(doctorWallet, amount).send();
+    }
 
-        rewardRepository.save(reward);
-        return reward;
+    public TransactionReceipt setMaxBoost(int bps) throws Exception {
+        return rewardManager.setMaxBoostBps(BigInteger.valueOf(bps)).send();
     }
 }

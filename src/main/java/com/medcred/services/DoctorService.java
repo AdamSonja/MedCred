@@ -21,7 +21,7 @@ public class DoctorService {
     private final Credentials credentials;
     private final DoctorRepository doctorRepository;
 
-    @Value("${contract.medcredregistry.address}")
+    @Value("${contract.registry.address}")
     private String registryAddress;
 
     private MedCredRegistery registry;

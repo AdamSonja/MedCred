@@ -1,9 +1,9 @@
 package com.medcred.controllers;
 
-import com.medcred.models.Reward;
 import com.medcred.services.RewardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
 
@@ -15,7 +15,17 @@ public class RewardController {
     private final RewardService rewardService;
 
     @PostMapping("/reward-doctor")
-    public Reward rewardDoctor(@RequestParam String wallet, @RequestParam BigInteger amount) throws Exception {
+    public TransactionReceipt rewardDoctor(@RequestParam String wallet, @RequestParam BigInteger amount) throws Exception {
         return rewardService.distributeRewardToDoctor(wallet, amount);
+    }
+
+    @PostMapping("/slash-doctor")
+    public TransactionReceipt slashDoctor(@RequestParam String wallet, @RequestParam BigInteger amount) throws Exception {
+        return rewardService.slashDoctor(wallet, amount);
+    }
+
+    @PostMapping("/set-max-boost")
+    public TransactionReceipt setMaxBoost(@RequestParam int bps) throws Exception {
+        return rewardService.setMaxBoost(bps);
     }
 }

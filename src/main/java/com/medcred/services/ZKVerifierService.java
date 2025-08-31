@@ -9,7 +9,6 @@ import org.web3j.protocol.Web3j;
 import org.web3j.tx.gas.DefaultGasProvider;
 
 import jakarta.annotation.PostConstruct;
-
 import java.math.BigInteger;
 
 @Service
