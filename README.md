@@ -1,4 +1,6 @@
-Project Overview
+.
+
+🚀 Project Overview
 
 MedCred ensures that only authentic and verified medical information circulates in the community — powered by blockchain transparency and a reputation-based incentive system.
 
@@ -49,79 +51,14 @@ Reputation influences staking requirements and visibility.
 
 ⚙️ Tech Stack
 Layer	Technology
-Backend Framework	Spring Boot (Java 17+)
+Backend Framework	       Spring Boot (Java 17+)
 Blockchain Interaction	Web3j
-Smart Contracts	Solidity (Hardhat / Remix)
-Storage	IPFS (for post content)
-Database	PostgreSQL / MySQL
+Smart Contracts	       Solidity (Hardhat / Remix)
+Storage	              IPFS (for post content)
+Database	              PostgreSQL / MySQL
 Wallet Authentication	MetaMask / Web3j Signatures
-API Format	REST APIs (JSON)
-🧩 System Architecture
-Doctor → Frontend (React/Angular) → Spring Boot Backend
-       ↓                               ↓
-Blockchain (Ethereum / Sepolia) ←→ Web3j Smart Contract Service
-       ↓
-     IPFS (Stores post data)
+API Format	              REST APIs (JSON)
 
-🔐 Smart Contract Modules
-Contract	Purpose
-DoctorRegistry.sol	Registers and verifies doctors; stores wallet–identity mapping.
-MedPost.sol	Handles post creation, staking, and validation logic.
-ReputationManager.sol	Maintains and updates doctors’ reputation scores.
-RewardPool.sol	Manages rewards, slashing, and staking pools.
-📦 Backend Structure
-medcred-backend/
-├── src/main/java/com/medcred/
-│   ├── controller/
-│   │   ├── DoctorController.java
-│   │   ├── PostController.java
-│   │   └── ReputationController.java
-│   ├── service/
-│   │   ├── DoctorService.java
-│   │   ├── PostService.java
-│   │   ├── Web3Service.java
-│   │   └── ReputationService.java
-│   ├── config/
-│   │   └── Web3jConfig.java
-│   ├── model/
-│   │   ├── Doctor.java
-│   │   ├── Post.java
-│   │   └── Reputation.java
-│   └── MedcredApplication.java
-├── src/main/resources/
-│   └── application.properties
-└── README.md
-
-🔧 Setup & Installation
-1️⃣ Clone Repository
-git clone https://github.com/yourusername/medcred.git
-cd medcred
-
-2️⃣ Configure Blockchain Connection
-
-Set up .env or application.properties with:
-
-web3.rpc.url=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-contract.doctorRegistry=0x123...abc
-contract.medPost=0x456...def
-wallet.privateKey=YOUR_PRIVATE_KEY
-
-3️⃣ Build & Run Backend
-mvn clean install
-mvn spring-boot:run
-
-
-Backend runs at:
-
-http://localhost:8080
-
-🌍 API Endpoints
-Endpoint	Method	Description
-/api/doctor/register	POST	Register a new doctor
-/api/doctor/{id}	GET	Get doctor profile & reputation
-/api/post/create	POST	Create a new post and stake ETH
-/api/post/validate/{id}	PUT	Validate post authenticity
-/api/reputation/{doctorId}	GET	Fetch doctor’s reputation score
 🪙 Reward Logic
 
 Stake Amount: Configurable per post (e.g., 0.05 ETH)
